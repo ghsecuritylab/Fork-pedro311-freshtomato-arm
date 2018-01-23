@@ -1300,7 +1300,7 @@ void start_wan_done(char *wan_ifname, char *prefix)
 
 #ifdef TCONFIG_DNSSEC
 		if (nvram_match("dnssec_enable", "1"))
-			killall("dnsmasq", SIGHUP);
+			killall("dnsmasq", SIGINT);
 #endif
 
 		stop_upnp();
@@ -1357,14 +1357,6 @@ void start_wan_done(char *wan_ifname, char *prefix)
 #endif
 
 		new_qoslimit_start(); //!! RAF
-	}
-
-	if (wanup) {
-		// bump wan state file on connect (don't wait for watchdog result)
-		sprintf(tmp, "/tmp/state_%s", prefix);
-		f = fopen(tmp, "w+");
-		fprintf(f, "1\n");
-		fclose(f);
 	}
 
 	mwan_table_add(prefix);
