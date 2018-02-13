@@ -1515,12 +1515,15 @@ rp-l2tp-install:
 	$(STRIP) $(INSTALLDIR)/rp-l2tp/usr/sbin/l2tpd
 
 xl2tpd: pppd
+	$(call patch_files,xl2tpd)
 	CFLAGS="-g $(EXTRACFLAGS)" $(MAKE) -C $@ PREFIX=/usr xl2tpd $(PARALLEL_BUILD)
 
 xl2tpd-install:
 	install -D xl2tpd/xl2tpd $(INSTALLDIR)/xl2tpd/usr/sbin/xl2tpd
 	$(STRIP) $(INSTALLDIR)/xl2tpd/usr/sbin/xl2tpd
 
+xl2tpd-clean:
+	$(call unpatch_files,xl2tpd)
 
 bpalogin-install:
 	install -D bpalogin/bpalogin $(INSTALLDIR)/bpalogin/usr/sbin/bpalogin
@@ -1869,11 +1872,13 @@ endif
 
 minidlna: zlib sqlite ffmpeg libogg flac jpeg libexif libid3tag libvorbis
 	@$(SEP)
+	$(call patch_files,minidlna)
 	@$(MAKE) -C minidlna CC=$(CC) $(if $(MEDIA_SERVER_STATIC),STATIC=1,) minidlna $(PARALLEL_BUILD)
 
 minidlna-clean:
 	-@$(MAKE) -C minidlna clean
 	@rm -f minidlna/stamp-h1
+	$(call unpatch_files,minidlna)
 
 minidlna-install:
 	@$(SEP)
