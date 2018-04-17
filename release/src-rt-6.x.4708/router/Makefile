@@ -1137,6 +1137,7 @@ iptables-1.4.x-install:
 	install -D iptables-1.4.x/iptables/.libs/xtables-multi $(INSTALLDIR)/iptables-1.4.x/usr/sbin/xtables-multi
 	cd $(INSTALLDIR)/iptables-1.4.x/usr/sbin && \
 		ln -sf xtables-multi iptables-restore && \
+		ln -sf xtables-multi iptables-save && \
 		ln -sf xtables-multi iptables
 	install -d $(INSTALLDIR)/iptables-1.4.x/usr/lib/xtables
 	install -D iptables-1.4.x/libiptc/.libs/lib*.so $(INSTALLDIR)/iptables-1.4.x/usr/lib/
@@ -1156,6 +1157,7 @@ iptables-1.4.x-install:
 ifeq ($(TCONFIG_IPV6),y)
 	cd $(INSTALLDIR)/iptables-1.4.x/usr/sbin && \
 		ln -sf xtables-multi ip6tables-restore && \
+		ln -sf xtables-multi ip6tables-save && \
 		ln -sf xtables-multi ip6tables
 endif
 
@@ -2843,12 +2845,12 @@ ipset: ipset/stamp-h1
 ipset-install:
 	install -D ipset/src/ipset $(INSTALLDIR)/ipset/usr/sbin/ipset
 	install -d $(INSTALLDIR)/ipset/usr/lib/
-	install ipset/lib/.libs/libipset.so.11.0.0 $(INSTALLDIR)/ipset/usr/lib/libipset.so.11.0.0
-	$(STRIP) $(INSTALLDIR)/ipset/usr/lib/libipset.so.11.0.0
+	install ipset/lib/.libs/libipset.so.11.1.0 $(INSTALLDIR)/ipset/usr/lib/libipset.so.11.1.0
+	$(STRIP) $(INSTALLDIR)/ipset/usr/lib/libipset.so.11.1.0
 	$(STRIP) $(INSTALLDIR)/ipset/usr/sbin/ipset
 	cd $(INSTALLDIR)/ipset/usr/lib/ && \
-		ln -sf libipset.so.11.0.0 libipset.so.11 && \
-		ln -sf libipset.so.11.0.0 libipset.so
+		ln -sf libipset.so.11.1.0 libipset.so.11 && \
+		ln -sf libipset.so.11.1.0 libipset.so
 
 ipset-clean:
 	-@$(MAKE) -C ipset clean
